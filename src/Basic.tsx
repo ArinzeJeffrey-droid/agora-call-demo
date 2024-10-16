@@ -1,5 +1,18 @@
-import { LocalUser, RemoteUser, useIsConnected, useJoin, useLocalMicrophoneTrack, usePublish, useRemoteUsers } from "agora-rtc-react";
+import {
+  LocalUser,
+  RemoteUser,
+  useIsConnected,
+  useJoin,
+  useLocalMicrophoneTrack,
+  usePublish,
+  useRemoteUsers,
+} from "agora-rtc-react";
 import { useState } from "react";
+import { Icon } from "@iconify/react";
+import microphoneIcon from "@iconify-icons/mdi/microphone";
+import microphoneOffIcon from "@iconify-icons/mdi/microphone-off";
+import phoneHangupIcon from "@iconify-icons/mdi/phone-hangup";
+import phoneIcon from "@iconify-icons/mdi/phone";
 
 export const Basics = () => {
   const [calling, setCalling] = useState(false);
@@ -8,7 +21,10 @@ export const Basics = () => {
   const [channel, setChannel] = useState("");
   const [token, setToken] = useState("");
 
-  useJoin({appid: appId, channel: channel, token: token ? token : null}, calling);
+  useJoin(
+    { appid: appId, channel: channel, token: token ? token : null },
+    calling
+  );
 
   const [micOn, setMic] = useState(true);
   const { localMicrophoneTrack } = useLocalMicrophoneTrack(micOn);
@@ -17,7 +33,6 @@ export const Basics = () => {
   const remoteUsers = useRemoteUsers();
   console.log("remoteUsers", remoteUsers);
   console.log("isConnected", isConnected);
-
 
   return (
     <>
@@ -44,17 +59,17 @@ export const Basics = () => {
         ) : (
           <div className="join-room">
             <input
-              onChange={e => setAppId(e.target.value)}
+              onChange={(e) => setAppId(e.target.value)}
               placeholder="<Your app ID>"
               value={appId}
             />
             <input
-              onChange={e => setChannel(e.target.value)}
+              onChange={(e) => setChannel(e.target.value)}
               placeholder="<Your channel Name>"
               value={channel}
             />
             <input
-              onChange={e => setToken(e.target.value)}
+              onChange={(e) => setToken(e.target.value)}
               placeholder="<Your token>"
               value={token}
             />
@@ -72,15 +87,15 @@ export const Basics = () => {
       {isConnected && (
         <div className="control">
           <div className="left-control">
-            <button className="btn" onClick={() => setMic(a => !a)}>
-              <i className={`i-microphone ${!micOn ? "off" : ""}`} />
+            <button className="btn" onClick={() => setMic((a) => !a)}>
+              <Icon icon={micOn ? microphoneIcon : microphoneOffIcon} />
             </button>
           </div>
           <button
             className={`btn btn-phone ${calling ? "btn-phone-active" : ""}`}
-            onClick={() => setCalling(a => !a)}
+            onClick={() => setCalling((a) => !a)}
           >
-            {calling ? <i className="i-phone-hangup" /> : <i className="i-mdi-phone" />}
+            <Icon icon={calling ? phoneHangupIcon : phoneIcon} />
           </button>
         </div>
       )}
